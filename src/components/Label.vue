@@ -3,6 +3,7 @@
     viewBox="0 0 1960 1470"
     xmlns="http://www.w3.org/2000/svg"
     xml:space="preserve"
+    class="w-full h-auto aspect-[305/229]"
   >
     <!-- Background -->
     <path
@@ -45,8 +46,12 @@
           x="1192.67px 1196.31px 1203.61px"
           y="950.001px 950.001px 950.001px"
         >
-          : {{ data.text.diameter }} ± {{ data.text.tolerance }} mm
+          : {{ data.text.diameter }}
         </tspan>
+        <tspan v-if="data.text.tolerance && data.text.tolerance !== '0'">
+          ± {{ data.text.tolerance }}
+        </tspan>
+        mm
       </text>
       <text
         x="1105.34"

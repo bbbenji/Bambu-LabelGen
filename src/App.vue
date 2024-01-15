@@ -113,8 +113,9 @@ async function downloadLabel(e: Event) {
 </script>
 
 <template>
-  <div class="container mx-auto p-5">
-    <div class="grid gird-cols-1 md:grid-cols-2 gap-6">
+  <div class="container mx-auto p-5 h-full">
+    <h1 class="text-center text-3xl pt-6 pb-12">Bambu Lab-elGen</h1>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
       <div>
         <!-- Input fields for label text configuration with data binding to reactive state -->
         <div class="grid grid-cols-2 gap-6">
@@ -134,22 +135,22 @@ async function downloadLabel(e: Event) {
 
         <div class="mt-8 grid grid-cols-2 gap-6">
           <TextInput
-            labelText="Diameter"
+            labelText="Diameter (mm)"
             placeholder=""
             v-model:value="configData.text.diameter"
           />
           <TextInput
-            labelText="Tolerance"
+            labelText="Tolerance (mm)"
             placeholder=""
             v-model:value="configData.text.tolerance"
           />
           <TextInput
-            labelText="Length"
+            labelText="Length (m)"
             placeholder=""
             v-model:value="configData.text.length"
           />
           <TextInput
-            labelText="Temp"
+            labelText="Temp (ºC)"
             placeholder=""
             v-model:value="configData.text.temp"
           />
@@ -202,7 +203,7 @@ async function downloadLabel(e: Event) {
         <hr class="h-px my-8 bg-gray-200 border-0 dark:bg-gray-700" />
 
         <!-- Input fields for label colour configuration -->
-        <div class="mt-8 grid grid-cols-4 gap-6 items-end">
+        <div class="mt-8 grid grid-cols-2 gap-6">
           <TextInput
             inputType="color"
             labelText="Filament Color"
@@ -240,9 +241,9 @@ async function downloadLabel(e: Event) {
 
         <button
           @click="downloadLabel"
-          class="border rounded p-2 hover:bg-gray-100"
+          class="rounded border border-primary bg-primary px-12 py-3 text-white hover:bg-transparent hover:text-primary focus:outline-none focus:ring active:text-primary"
         >
-          Download Label
+          Download
         </button>
 
         <!-- Hidden section for full-sized label used in download -->
