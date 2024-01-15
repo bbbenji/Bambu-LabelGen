@@ -11,7 +11,7 @@ import Label from "@/components/Label.vue";
 import TextInput from "@/components/TextInput.vue";
 
 // Reactive state for label configuration
-const configData = reactive<LabelDataType>({
+let configData = reactive<LabelDataType>({
   // Initial values for label text and colour properties
   text: {
     brand: "Bambu",
