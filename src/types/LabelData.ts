@@ -3,6 +3,7 @@ export default interface LabelData {
         brand: string,
         type: string,
         diameter: string,
+        tolerance: string,
         length: string,
         temp: string,
         weight: string,

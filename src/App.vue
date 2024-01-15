@@ -8,26 +8,28 @@ import downloadURI from "@/utils/downloadURI";
 // Import custom type definitions and components
 import LabelDataType from "@/types/LabelData";
 import Label from "@/components/Label.vue";
+import TextInput from "@/components/TextInput.vue";
 
 // Reactive state for label configuration
 const configData = reactive<LabelDataType>({
-    // Initial values for label text and colour properties
-    text: {
-        brand: "Brand",
-        type: "Type",
-        diameter: "? mm",
-        length: "? m",
-        temp: "?",
-        weight: "? kg",
-        code: "?",
-        colour_name: "?",
-    },
-    colour: {
-        background: "#FFFFFF",
-        text: "#2D2D2D",
-        outline: "#A5AAA9",
-        filament: "#06AE42",
-    },
+  // Initial values for label text and colour properties
+  text: {
+    brand: "Bambu",
+    type: "PLA Aero",
+    diameter: "2.75",
+    tolerance: "0.03",
+    length: "340",
+    temp: "220 - 260",
+    weight: "1",
+    code: "14103",
+    colour_name: "Black",
+  },
+  colour: {
+    background: "#FFFFFF",
+    text: "#2D2D2D",
+    outline: "#A5AAA9",
+    filament: "#000000",
+  },
 });
 
 // Create a debounced function to update URL parameters for performance optimization
@@ -35,49 +37,49 @@ const debouncedUpdateURLParameters = debounce(updateURLParameters, 500);
 
 // Function to update URL parameters based on configData
 function updateURLParameters() {
-    try {
-        const params = new URLSearchParams();
+  try {
+    const params = new URLSearchParams();
 
-        // Loop through text and colour properties to set them as URL parameters
-        for (const [key, value] of Object.entries(configData.text)) {
-            params.set(`text.${key}`, value);
-        }
-        for (const [key, value] of Object.entries(configData.colour)) {
-            params.set(`colour.${key}`, value);
-        }
-
-        // Update the browser URL without reloading the page
-        window.history.replaceState(
-            {},
-            "",
-            `${window.location.pathname}?${params}`
-        );
-    } catch (error) {
-        console.error("Error updating URL parameters:", error);
+    // Loop through text and colour properties to set them as URL parameters
+    for (const [key, value] of Object.entries(configData.text)) {
+      params.set(`text.${key}`, value);
     }
+    for (const [key, value] of Object.entries(configData.colour)) {
+      params.set(`colour.${key}`, value);
+    }
+
+    // Update the browser URL without reloading the page
+    window.history.replaceState(
+      {},
+      "",
+      `${window.location.pathname}?${params}`
+    );
+  } catch (error) {
+    console.error("Error updating URL parameters:", error);
+  }
 }
 
 // Function to parse URL parameters and update configData accordingly
 function parseURLParameters() {
-    try {
-        const params = new URLSearchParams(window.location.search);
+  try {
+    const params = new URLSearchParams(window.location.search);
 
-        // Update text and colour properties from URL parameters if available
-        for (const [key] of Object.entries(configData.text)) {
-            const paramValue = params.get(`text.${key}`);
-            if (paramValue !== null) {
-                configData.text[key] = paramValue;
-            }
-        }
-        for (const [key] of Object.entries(configData.colour)) {
-            const paramValue = params.get(`colour.${key}`);
-            if (paramValue !== null) {
-                configData.colour[key] = paramValue;
-            }
-        }
-    } catch (error) {
-        console.error("Error parsing URL parameters:", error);
+    // Update text and colour properties from URL parameters if available
+    for (const [key] of Object.entries(configData.text)) {
+      const paramValue = params.get(`text.${key}`);
+      if (paramValue !== null) {
+        configData.text[key] = paramValue;
+      }
     }
+    for (const [key] of Object.entries(configData.colour)) {
+      const paramValue = params.get(`colour.${key}`);
+      if (paramValue !== null) {
+        configData.colour[key] = paramValue;
+      }
+    }
+  } catch (error) {
+    console.error("Error parsing URL parameters:", error);
+  }
 }
 
 // Watch for changes in configData and update URL parameters using the debounced function
@@ -88,76 +90,166 @@ onMounted(parseURLParameters);
 
 // Function to download the label as a PNG file
 async function downloadLabel(e: Event) {
-    // Select the SVG element and its dimensions
-    const svgElement = document.querySelector(
-        "#full-sized-label"
-    ) as SVGSVGElement;
-    const { width, height } = svgElement.viewBox.baseVal;
+  // Select the SVG element and its dimensions
+  const svgElement = document.querySelector(
+    "#full-sized-label"
+  ) as SVGSVGElement;
+  const { width, height } = svgElement.viewBox.baseVal;
 
-    // Set up a canvas and its context for rendering
-    const canvas = document.querySelector("canvas") as HTMLCanvasElement;
-    const ctx = canvas.getContext("2d") as CanvasRenderingContext2D;
-    canvas.width = width;
-    canvas.height = height;
+  // Set up a canvas and its context for rendering
+  const canvas = document.querySelector("canvas") as HTMLCanvasElement;
+  const ctx = canvas.getContext("2d") as CanvasRenderingContext2D;
+  canvas.width = width;
+  canvas.height = height;
 
-    // Convert SVG to Canvas using Canvg library
-    const v = await Canvg.from(ctx, svgElement.outerHTML);
-    v.render();
+  // Convert SVG to Canvas using Canvg library
+  const v = await Canvg.from(ctx, svgElement.outerHTML);
+  v.render();
 
-    // Trigger download of the rendered image
-    downloadURI(canvas.toDataURL("image/png"), "Label.png");
+  // Trigger download of the rendered image
+  downloadURI(canvas.toDataURL("image/png"), "Label.png");
 }
 </script>
 
 <template>
-    <!-- Input fields for label text configuration with data binding to reactive state -->
-    <input type="text" placeholder="Brand" v-model="configData.text.brand" />
-    <input type="text" placeholder="Type" v-model="configData.text.type" />
-    <input
-        type="text"
-        placeholder="Diameter"
-        v-model="configData.text.diameter"
-    />
-    <input type="text" placeholder="Length" v-model="configData.text.length" />
-    <input type="text" placeholder="Temp" v-model="configData.text.temp" />
-    <input type="text" placeholder="Weight" v-model="configData.text.weight" />
-    <input type="text" placeholder="Code" v-model="configData.text.code" />
-    <input
-        type="text"
-        placeholder="Filament colour"
-        v-model="configData.text.colour_name"
-    />
+  <div class="container mx-auto p-5">
+    <div class="grid gird-cols-1 md:grid-cols-2 gap-6">
+      <div>
+        <!-- Input fields for label text configuration with data binding to reactive state -->
+        <div class="grid grid-cols-2 gap-6">
+          <TextInput
+            labelText="Brand"
+            placeholder=""
+            v-model:value="configData.text.brand"
+          />
+          <TextInput
+            labelText="Type"
+            placeholder=""
+            v-model:value="configData.text.type"
+          />
+        </div>
 
-    <br /><br />
+        <hr class="h-px my-8 bg-gray-200 border-0 dark:bg-gray-700" />
 
-    <!-- Input fields for label colour configuration -->
-    <input type="color" v-model="configData.colour.filament" />
-    <input type="color" v-model="configData.colour.text" />
-    <input type="color" v-model="configData.colour.outline" />
-    <input type="color" v-model="configData.colour.background" />
+        <div class="mt-8 grid grid-cols-2 gap-6">
+          <TextInput
+            labelText="Diameter"
+            placeholder=""
+            v-model:value="configData.text.diameter"
+          />
+          <TextInput
+            labelText="Tolerance"
+            placeholder=""
+            v-model:value="configData.text.tolerance"
+          />
+          <TextInput
+            labelText="Length"
+            placeholder=""
+            v-model:value="configData.text.length"
+          />
+          <TextInput
+            labelText="Temp"
+            placeholder=""
+            v-model:value="configData.text.temp"
+          />
+          <TextInput
+            labelText="Weight"
+            placeholder=""
+            v-model:value="configData.text.weight"
+          />
 
-    <br /><br /><br /><br />
+          <label class="flex flex-col">
+            <span>Units</span>
+            <div class="flex items-center h-[stretch]">
+              <div class="flex items-center me-4">
+                <input
+                  id="kilograms"
+                  type="radio"
+                  value=""
+                  name="units"
+                  class="w-4 h-4"
+                />
+                <label for="kilograms" class="ms-2">Kilograms</label>
+              </div>
+              <div class="flex items-center me-4">
+                <input
+                  id="grams"
+                  type="radio"
+                  value=""
+                  name="units"
+                  class="w-4 h-4"
+                />
+                <label for="grams" class="ms-2">Grams</label>
+              </div>
+            </div>
+          </label>
 
-    <!-- Label preview section -->
-    <div style="text-align: center">
+          <TextInput
+            labelText="Code"
+            placeholder=""
+            v-model:value="configData.text.code"
+          />
+          <TextInput
+            labelText="Color Name"
+            placeholder=""
+            v-model:value="configData.text.colour_name"
+          />
+        </div>
+
+        <hr class="h-px my-8 bg-gray-200 border-0 dark:bg-gray-700" />
+
+        <!-- Input fields for label colour configuration -->
+        <div class="mt-8 grid grid-cols-4 gap-6 items-end">
+          <TextInput
+            inputType="color"
+            labelText="Filament Color"
+            placeholder=""
+            v-model:value="configData.colour.filament"
+          />
+          <TextInput
+            inputType="color"
+            labelText="Text Color"
+            placeholder=""
+            v-model:value="configData.colour.text"
+          />
+          <TextInput
+            inputType="color"
+            labelText="Outline Color"
+            placeholder=""
+            v-model:value="configData.colour.outline"
+          />
+          <TextInput
+            inputType="color"
+            labelText="Background Color"
+            placeholder=""
+            v-model:value="configData.colour.background"
+          />
+        </div>
+      </div>
+
+      <div class="flex flex-col justify-center items-center gap-6">
+        <!-- Label preview section -->
         <Label
-            v-model:data="configData"
-            height="245"
-            style="outline: 1rem solid black"
+          v-model:data="configData"
+          height="245"
+          class="border-black border-8"
         />
 
-        <br /><br /><br />
-
-        <button @click="downloadLabel" style="text-align: center">
-            Download Label
+        <button
+          @click="downloadLabel"
+          class="border rounded p-2 hover:bg-gray-100"
+        >
+          Download Label
         </button>
-    </div>
 
-    <!-- Hidden section for full-sized label used in download -->
-    <div style="display: none">
-        <canvas id="canvas"></canvas>
-        <Label id="full-sized-label" v-model:data="configData" />
+        <!-- Hidden section for full-sized label used in download -->
+        <div class="hidden">
+          <canvas id="canvas"></canvas>
+          <Label id="full-sized-label" v-model:data="configData" />
+        </div>
+      </div>
     </div>
+  </div>
 </template>
 
 <style scoped>
