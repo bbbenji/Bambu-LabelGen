@@ -43,10 +43,14 @@ function updateURLParameters() {
 
     // Loop through text and colour properties to set them as URL parameters
     for (const [key, value] of Object.entries(configData.text)) {
-      params.set(`text.${key}`, value);
+      if (typeof value === "string") {
+        params.set(`text.${key}`, value);
+      }
     }
     for (const [key, value] of Object.entries(configData.colour)) {
-      params.set(`colour.${key}`, value);
+      if (typeof value === "string") {
+        params.set(`colour.${key}`, value);
+      }
     }
 
     // Update the browser URL without reloading the page
@@ -206,27 +210,27 @@ async function downloadLabel(e: Event) {
         <div class="mt-8 grid grid-cols-2 gap-6">
           <TextInput
             inputType="color"
-            labelText="Filament Color"
+            labelText="Label Background"
             placeholder=""
-            v-model:value="configData.colour.filament"
+            v-model:value="configData.colour.background"
           />
           <TextInput
             inputType="color"
-            labelText="Text Color"
+            labelText="Label Text"
             placeholder=""
             v-model:value="configData.colour.text"
           />
           <TextInput
             inputType="color"
-            labelText="Outline Color"
+            labelText="Filament"
             placeholder=""
-            v-model:value="configData.colour.outline"
+            v-model:value="configData.colour.filament"
           />
           <TextInput
             inputType="color"
-            labelText="Background Color"
+            labelText="Spool Outline"
             placeholder=""
-            v-model:value="configData.colour.background"
+            v-model:value="configData.colour.outline"
           />
         </div>
       </div>

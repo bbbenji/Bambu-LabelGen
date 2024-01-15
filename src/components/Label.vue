@@ -3,7 +3,7 @@
     viewBox="0 0 1960 1470"
     xmlns="http://www.w3.org/2000/svg"
     xml:space="preserve"
-    class="w-full h-auto aspect-[305/229]"
+    class="w-full h-auto aspect-[302/229]"
   >
     <!-- Background -->
     <path

@@ -738,7 +738,7 @@ __metadata:
     vite: ^5.0.8
     vite-svg-loader: ^5.1.0
     vue: ^3.3.11
-    vue-tsc: ^1.8.25
+    vue-tsc: ^1.8.27
   languageName: unknown
   linkType: soft
 
@@ -2553,7 +2553,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"vue-tsc@npm:^1.8.25":
+"vue-tsc@npm:^1.8.27":
   version: 1.8.27
   resolution: "vue-tsc@npm:1.8.27"
   dependencies:
