@@ -16,5 +16,6 @@ export default interface LabelData {
         text: string,
         outline: string,
         background: string
-    }
+    },
+    logo: string
 }
