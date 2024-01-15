@@ -87,7 +87,7 @@
           x="1192.67px 1196.31px 1203.61px"
           y="993.298px 993.298px 993.298px"
         >
-          : {{ data.text.weight }} kg
+          : {{ data.text.weight }} {{ data.text.units }}
         </tspan>
       </text>
       <text

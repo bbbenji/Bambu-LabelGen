@@ -21,6 +21,7 @@ const configData = reactive<LabelDataType>({
     length: "340",
     temp: "220 - 260",
     weight: "1",
+    units: "kg",
     code: "14103",
     colour_name: "Black",
   },
@@ -165,9 +166,10 @@ async function downloadLabel(e: Event) {
                 <input
                   id="kilograms"
                   type="radio"
-                  value=""
+                  value="kg"
                   name="units"
                   class="w-4 h-4"
+                  v-model="configData.text.units"
                 />
                 <label for="kilograms" class="ms-2">Kilograms</label>
               </div>
@@ -175,9 +177,10 @@ async function downloadLabel(e: Event) {
                 <input
                   id="grams"
                   type="radio"
-                  value=""
+                  value="g"
                   name="units"
                   class="w-4 h-4"
+                  v-model="configData.text.units"
                 />
                 <label for="grams" class="ms-2">Grams</label>
               </div>

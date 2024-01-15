@@ -7,6 +7,7 @@ export default interface LabelData {
         length: string,
         temp: string,
         weight: string,
+        units: string,
         code: string,
         colour_name: string
     },
