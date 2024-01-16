@@ -10,8 +10,12 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@tailwindcss/forms": "^0.5.7",
+    "autoprefixer": "^10.4.16",
     "canvg": "^4.0.1",
     "lodash-es": "^4.17.21",
+    "postcss": "^8.4.33",
+    "tailwindcss": "^3.4.1",
     "vue": "^3.3.11"
   },
   "devDependencies": {

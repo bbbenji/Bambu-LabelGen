@@ -3,9 +3,11 @@ export default interface LabelData {
         brand: string,
         type: string,
         diameter: string,
+        tolerance: string,
         length: string,
         temp: string,
         weight: string,
+        units: string,
         code: string,
         colour_name: string
     },
@@ -14,5 +16,6 @@ export default interface LabelData {
         text: string,
         outline: string,
         background: string
-    }
+    },
+    logo: string
 }
